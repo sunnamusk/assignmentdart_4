@@ -1,0 +1,110 @@
+import 'dart:io';
+
+void main() async {
+  // Step 1: Perform string manipulation on user input
+  print("Enter some text:");
+  String input = stdin.readLineSync()!;
+
+  // Reverse the string
+  String reversed = input.split('').reversed.join('');
+  print("Reversed text: $reversed");
+
+  // Convert to uppercase
+  String uppercased = input.toUpperCase();
+  print("Uppercased: $uppercased");
+
+  // Extract a substring (for demonstration purposes, extract first 5 characters)
+  String substring = input.length >= 5 ? input.substring(0, 5) : input;
+  print("Substring (first 5 characters): $substring");
+
+  // Step 2: Store results in a collection (list)
+  List<String> results = ["Original: $input", "Reversed: $reversed", "Uppercased: $uppercased", "Substring: $substring"];
+
+  // Use a Set to demonstrate storing unique items
+  Set<String> uniqueResults = results.toSet();
+  print("Unique results stored in a set: $uniqueResults");
+
+  // Use a Map to keep track of the original and manipulated strings
+  Map<String, String> resultMap = {
+    "Original": input,
+    "Reversed": reversed,
+    "Uppercased": uppercased,
+    "Substring": substring,
+  };
+  print("Results stored in a map:");
+  resultMap.forEach((key, value) => print("$key: $value"));
+
+  // Step 3: Use date and time to log when the entry was made
+  DateTime now = DateTime.now();
+  String log = "Entry made at ${now.day}-${now.month}-${now.year} ${now.hour}:${now.minute}:${now.second}";
+  print("Log timestamp: $log");
+
+  // Step 4: Save the data to a file
+  File file = File('results.txt');
+  await file.writeAsString("User input: $input\nReversed: $reversed\nUppercased: $uppercased\nSubstring: $substring\n$log\n", mode: FileMode.append);
+  print("Data saved to results.txt");
+
+  // Step 5: Demonstrate file handling by reading the saved content
+  try {
+    String fileContent = await file.readAsString();
+    print("Content of results.txt:");
+    print(fileContent);
+  } catch (e) {
+    print("Error reading file: $e");
+  }
+
+  // Step 6: Demonstrate collections (lists, sets, and maps)
+  collectionsDemo();
+
+  // Step 7: Demonstrate date and time manipulation
+  dateAndTimeDemo();
+}
+
+// Step 6: Collections (Lists, Sets, Maps) demonstration
+void collectionsDemo() {
+  // List
+  List<String> fruits = ["Apple", "Banana", "Orange"];
+  fruits.add("Mango");
+  fruits.remove("Banana");
+  print("List of fruits: $fruits");
+
+  // Iterating over a list
+  for (var fruit in fruits) {
+    print("Fruit: $fruit");
+  }
+
+  // Set (removes duplicates)
+  Set<int> numbers = {1, 2, 3, 4, 4, 5};
+  numbers.add(6);
+  numbers.remove(2);
+  print("Set of numbers: $numbers");
+
+  // Map (key-value pairs)
+  Map<String, int> ageMap = {"Alice": 25, "Bob": 30};
+  ageMap["Charlie"] = 35;
+  ageMap.remove("Bob");
+  print("Map of ages: $ageMap");
+
+  // Iterating over a map
+  ageMap.forEach((key, value) => print("$key is $value years old"));
+}
+
+// Step 7: Date and Time demonstration
+void dateAndTimeDemo() {
+  // Get the current date and time
+  DateTime now = DateTime.now();
+  print("Current date and time: $now");
+
+  // Add or subtract days
+  DateTime future = now.add(Duration(days: 5));
+  DateTime past = now.subtract(Duration(days: 5));
+  print("5 days from now: $future");
+  print("5 days ago: $past");
+
+  // Calculate the difference between two dates
+  Duration difference = future.difference(past);
+  print("Difference between two dates: ${difference.inDays} days");
+
+  // Date formatting
+  print("Formatted date: ${now.day}-${now.month}-${now.year}");
+}
